@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>爱的寄语</title>
+
+    <style>
+        .downstar{
+            position: absolute;
+
+        }
+        body {
+            margin: 0 auto;
+            padding: 0px;
+            font-size: 12px;
+            background: url(images/bg.gif) repeat;
+            text-align: center;
+
+        }
+        .xyq {
+            position: fixed;
+            top: 600px;
+            left: 5px;
+            z-index: 98;
+        }
+        /*小纸条开始*/
+        #content {
+            margin: 0 auto;
+            width: 100%;
+            /*background: url(images/content_bg.jpg) no-repeat left top;*/
+            height: 600px;
+            position: relative;
+        }
+
+        #content .tip1 {
+            position: absolute;
+            width: 227px;
+            left: 200px;
+            top: 100px;
+        }
+
+
+        #content .tip1 .tip_h {
+            background: url(images/tip1_h.gif) no-repeat left top;
+            width: 227px;
+            padding-top: 45px;
+            height: 23px;
+            text-align: left;
+            cursor: move;
+        }
+
+        #content .tip1 .tip_c {
+            background: url(images/tip1_c.gif) repeat-y;
+            width: 200px;
+            padding-left: 12px;
+            padding-right: 15px;
+            min-height: 40px;
+            text-align: left;
+            line-height: 20px;
+            max-height: 160px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+        }
+
+        #content .tip1 .tip_f {
+            background: url(images/tip1_f.gif) no-repeat left top;
+            width: 227px;
+            height: 53px;
+            padding-top: 20px;
+        }
+
+        #content .close, #content .close2 {
+            float: left;
+            font-size: 12px;
+            cursor: pointer;
+            color: #000000;
+        }
+
+        .clr {
+            clear: both;
+            overflow: auto;
+            display: block;
+            height: 0px;
+        }
+
+        #content .icon {
+            float: left;
+            width: 35px;
+            padding-left: 15px;
+            height: 35px;
+            text-align: center;
+        }
+
+        #content .name {
+            float: right;
+            padding-right: 15px;
+            text-align: right;
+            font-size: 14px;
+            line-height: 35px;
+            color: #C0F;
+        }
+
+        #content .num {
+            float: left;
+            padding-left: 7px;
+            width: 195px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //星星特效开始
+            var timer1 = null;
+            var content = document.getElementById("content");
+            document.onclick = function () {
+                clearInterval(timer1);
+                setInterval(function () {
+                    var stararr = ["url(images/subball1.png)",
+                        "url(images/subball2.png)",
+                        "url(images/subball3.png)",
+                        "url(images/subball4.png)",
+                        "url(images/subball5.png)",
+                        "url(images/subball6.png)",
+                        "url(images/subball7.png)",
+                        "url(images/subball8.png)"
+                    ];
+
+                    var star1 = document.createElement("div");
+                    star1.style.height = 20 + "px";
+                    star1.style.width = 20 + "px";
+                    star1.className = "downstar";
+                    star1.style.zIndex = 99;
+                    var num = Math.floor(Math.random() * 8);
+                    star1.style.backgroundImage = stararr[num];
+//                    document.body.appendChild(star1);
+                     content.appendChild(star1);
+                    leftNum = Math.random() * 80 * 10 * 2
+                    if (leftNum < 1350) {
+                        leftNum = leftNum;
+                    } else if (leftNum > 1340 || leftNum<1350) {
+                        leftNum = 1340;
+                    }else if (leftNum > 1350) {
+                        leftNum = 1;
+                    }
+                    star1.style.left = leftNum + "px";
+
+
+                    //计时器2
+                    var json1 = {"top":600,"left":1350};
+                    animate(star1,json1);
+
+                    function hide(ele) {
+                        ele.style.display = "none";
+                        content.removeChild(star1);
+                    }
+                    function animate(ele,json){
+                        clearInterval(ele.timer);
+                        ele.timer = setInterval(function () {
+//                            var flag = true;
+                            for(var k in json){
+                                var leader = parseFloat(getStyle(ele,k));
+                                var step = json[k]>leader?30:-30;
+                                leader = leader+step;
+                                ele.style[k] = leader + "px";
+                                if (Math.abs(json[k] - leader) <= Math.abs(step)) {
+                                    leader = json[k] + "px";
+                                }
+                                if(parseInt(json[k]) == parseInt(leader)){
+                                    clearInterval(ele.timer);
+                                    hide(ele);
+                                    //加删除
+                                }
+                            }
+                        },100);
+                    }
+
+                    function getStyle(ele,attr){
+                        if(window.getComputedStyle !== undefined){
+                            return window.getComputedStyle(ele,null)[attr];
+                        }else{
+                            return ele.currentStyle[attr];
+                        }
+                    }
+
+                }, 2000);
+            }
+            //星星特效结束
+
+            //许愿标签开始
+            var arr = [
+                {"id": 1, "name": "熊长老", "content": "时刻记得自己的目的就不会做错决定。", "time": "2016-02-17 00:00:00"},
+                {"id": 2, "name": "熊长老", "content": "有一种天才从坚定不移的信念中诞生。", "time": "2016-02-18 12:40:00"},
+                {"id": 3, "name": "熊长老", "content": "学习的动力在于你清楚的知道学到的东西能改未来的生活。学习的乐趣在于一个从无到有从不可能到可能的过程。", "time": "2016-03-18 12:40:00"},
+                {"id": 4, "name": "熊长老", "content": "东隅已逝，桑榆非晚。", "time": "2016-03-18 12:40:00"},
+                {"id": 5, "name": "盖聂", "content": "你完全依赖手中的剑，却忘记人才是力量的源泉。", "time": "2016-02-22 12:40:00"},
+                {"id": 6, "name": "逍遥子", "content": "世间风云兮幻亦真，天地无穷兮大道行。", "time": "2016-02-22 01:30:00"},
+                {
+                    "id": 7,"name": "潇湘","content": "我死之后，管他洪水滔天","time": "2016-02-22 01:30:00"
+                },
+                {"id": 8, "name": "熊长老", "content": "如果曾经的错能告诉自己什么是对的，那这样的错也是值得的。", "time": "2016-02-22 01:30:00"},
+                {"id": 9, "name": "小马哥", "content": "总有一天一切都会归于平淡。", "time": "2016-02-22 02:30:00"},
+                {"id": 10, "name": "小马哥", "content": "离我们近的东西离别人也很近。", "time": "2017-02-10 02:30:00"},
+                {"id": 11, "name": "小马哥", "content": "离我们近的东西离别人也很近。", "time": "2017-02-10 02:30:00"},
+                {"id": 12, "name": "小马哥", "content": "离我们近的东西离别人也很近。", "time": "2017-02-10 02:30:00"}
+            ];
+            var content = document.getElementById("content");
+            var index = 1;
+            for(var i=0;i<arr.length;i++){
+                var div = document.createElement("div");
+                div.className = "tip1";
+                div.id = "tip"+(i+1);
+                div.innerHTML =     '<div class="tip_h" title="双击关闭纸条">'+
+                        '<div class="num">'+arr[i].time+'</div>'+
+                        '<div class="close" title="关闭纸条">×</div>'+
+                        '<div class="clr"></div>'+
+                        '</div>'+
+                        '<div class="tip_c">'+arr[i].content+'</div>'+
+                        '<div class="tip_f">'+
+                        '<div class="icon"><img src="images/bpic_1.gif" alt="" title=""></div>'+
+                        '<div class="name">'+arr[i].name+'</div>'+
+                        '<div class="clr"></div>'+
+                        '</div>';
+                var y = parseInt(Math.random()*400);
+                var x = parseInt(Math.random()*900);
+                div.style.left = x + "px";
+                div.style.top = y + "px";
+                content.appendChild(div);
+//                document.body.appendChild(div);
+                div.onclick = function () {
+                    this.style.zIndex = index;
+                    index++;
+                }
+                var closeTip1 = div.getElementsByClassName("close")[0];
+                closeTip1.onclick = function () {
+                    this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+                }
+                var closeTip2 = div.getElementsByClassName("tip_h")[0];
+                closeTip2.ondblclick = function () {
+                    content.removeChild(this.parentNode);
+                }
+
+
+            }
+
+
+
+
+
+
+
+
+//          拖拽部分开始
+
+            div.onmouseover = function () {
+
+            }
+
+            var arrTip1 = content.getElementsByClassName("tip1");
+            console.log(arrTip1);
+
+            for(var i=0;i<arrTip1.length;i++){
+                arrTip1[i].onmousedown = function (event) {
+                    event = event || window.event;
+                    var pagey = event.pageY || scroll().top + event.clientY;
+                    var pagex = event.pageX || scroll().left + event.clientX;
+//                    var boxx = tip.offsetLeft;
+                    var boxx = this.offsetLeft;
+//                    var boxy = tip.offsetTop;
+                    var boxy = this.offsetTop;
+                    console.log(pagey);
+                    console.log(pagex);
+                    console.log(boxx);
+                    console.log(boxy);
+                    pagey = pagey - boxy;
+                    pagex = pagex - boxx;
+                    var aaa = this;
+                    document.onmousemove = function (event) {
+                        event = event || window.event;
+                        var y = event.pageY || scroll().top + event.clientY;
+                        var x = event.pageX || scroll().left + event.clientX;
+                        y = y - pagey;
+                        x = x - pagex;
+//                        tip.style.left = x + "px";
+                        aaa.style.left = x + "px";
+//                        tip.style.top = y + "px";
+                        aaa.style.top = y + "px";
+                        window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+                    }
+                }
+                //事件解绑。  在整个document上面如果鼠标弹起了，那么onmousemove功能停止。
+                document.onmouseup = function () {
+                    //鼠标弹起，就不要在执行onmousemove事件了.....
+                    document.onmousemove = null;
+                }
+
+            }
+
+
+
+        }
+    </script>
+</head>
+<body>
+    <button>对爱的人说些什么吧</button>
+    <div id="content">
+
+
+    </div>
+    <!--许愿墙-->
+    <div class="xyq" id="xyq">
+        <a href="../index.html"><img src="../heart.ico" width="50" alt=""/></a>
+    </div>
+</body>
+</html>

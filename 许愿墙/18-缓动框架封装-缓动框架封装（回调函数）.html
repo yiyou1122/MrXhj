@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <button>变变变....</button>
+    <div></div>
+
+<script>
+    //需求：封装一个缓动的框架，自动传递要移动的元素，要改变的属性，要改变的值。
+        //执行完json1，在执行json2，在执行json3.....
+    //步骤：
+    //1.利用开闭原则。有一个没有达到位置，也要把flag设置为false.
+
+
+    var btn = document.getElementsByTagName("button")[0];
+    var div = document.getElementsByTagName("div")[0];
+
+    btn.onclick = function () {
+        var json1 = {"top":150,"left":550};
+        var json2 = {"top":650,"left":250};
+        var json3 = {"top":350,"left":750};
+        var json4 = {"top":800,"left":450};
+
+        //测试。
+        animate(div,json1, function () {
+            animate(div,json2, function () {
+                animate(div,json3, function () {
+                    animate(div,json4);
+                })
+            });
+        })
+
+        //问题：无法连续调用。
+//        animate(div,json1);
+//        animate(div,json2);
+//        animate(div,json3);
+//        animate(div,json4);
+
+        //第一个函数还没有走完，你就执行第二个了，而第二个结束了第一个定时器......
+            //解决办法：第一个执行完毕，在执行第二个。
+                //怎么判断第一个执行完了....(清楚定时器的时候，在调用第二个方法)
+                //把第二个函数座位回调函数，在清楚定时器的时候调用
+    }
+
+
+
+
+    var json1 = {"top":600,"left":0};
+    animate(div,json1);
+
+    function hide(ele) {
+        ele.style.display = "none";
+    }
+    function animate(ele,json,fn){
+        clearInterval(ele.timer);
+        ele.timer = setInterval(function () {
+            var flag = true;
+            for(var k in json){
+                var leader = parseFloat(getStyle(ele,k));
+
+//                var speed = target > ele.offsetTop ? 30 : -30;
+//                ele.style.top = ele.offsetTop + speed + "px";
+                var step = json[k]>leader?30:-30;
+
+//                var step = (json[k]-leader)/10;
+//                step = step>0?Math.ceil(step):Math.floor(step);
+                leader = leader+step;
+                ele.style[k] = leader + "px";
+                if (Math.abs(json[k] - leader) <= Math.abs(leader)) {
+                    leader = json[k] + "px";
+                }
+                if(json[k] != leader){
+                    flag = false;
+                }
+            }
+            if(flag){
+                clearInterval(ele.timer);
+                hide(ele);
+            }
+        },30);
+    }
+    function getStyle(ele,attr){
+        if(window.getComputedStyle !== undefined){
+            return window.getComputedStyle(ele,null)[attr];
+        }else{
+            return ele.currentStyle[attr];
+        }
+    }
+</script>
+
+
+</body>
+</html>
